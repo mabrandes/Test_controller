@@ -27,7 +27,7 @@
   <!-- Start paused -->
   <arg name="paused"                                default="false"/>
   <!-- Use simulation clock -->
-  <arg name="use_sim_time"                          default="true"/>
+  <arg name="use_sim_time"                          default="false"/>
   <!-- Debug mode -->
   <arg name="debug"                                 default="false"/>
   <!-- Verbose mode -->

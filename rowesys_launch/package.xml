@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>rowesys_launch</name>
+  <version>0.0.0</version>
+  <description>The rowesys_launch package</description>
+
+  <maintainer email="timoscho@student.ethz.ch">Timo Schoenegg</maintainer>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+</package>

@@ -8,7 +8,7 @@
 -->
 
 <arg name="bag" default="/home/mbrandes/Documents/Rowesys/datasets/Test_VIO_full_system_garage/poseimu.bag"/>
-<!-- <param name="use_sim_time" value="true"/> -->
+<param name="use_sim_time" value="false"/>
  
 
 <node pkg="rosbag" type="play" name="rosbag_play" args="-r 1 --clock $(arg bag)" required="true" /> 

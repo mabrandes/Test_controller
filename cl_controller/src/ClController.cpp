@@ -10,8 +10,8 @@ ClController::ClController(ros::NodeHandle& nodehandle)
 		ros::requestShutdown();
 	}
 
-	sub_poseimu=nodehandle_.subscribe(subscriberTopic_pose_, 1 , &ClController::callback_poseimu, this);
-	sub_wo=nodehandle_.subscribe(subscriberTopic_wo_, 1 , &ClController::callback_wo, this);
+	sub_poseimu=nodehandle_.subscribe(subscriberTopic_pose_, 100 , &ClController::callback_poseimu, this);
+	sub_wo=nodehandle_.subscribe(subscriberTopic_wo_, 100 , &ClController::callback_wo, this);
 
 	pub_error=nodehandle_.advertise<std_msgs::Float64>("pose_error", 20);
 

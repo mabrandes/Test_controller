@@ -1,0 +1,9 @@
+<launch>
+
+  <!-- Start real robot -->
+  <include file="$(find rowesys_control)/launch/real_robot.launch" />
+
+  <!-- Start gamepad (including sound and lights) -->
+  <include file="$(find rowesys_joy_manager)/launch/joy_state.launch" />
+  
+</launch>

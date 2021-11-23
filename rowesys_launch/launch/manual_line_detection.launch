@@ -1,0 +1,12 @@
+<launch>
+
+  <!-- Start manual robot -->
+  <include file="$(find rowesys_launch)/launch/manual_drive.launch" />
+
+  <!-- start state estimation -->
+  <include file="$(find rowesys_state_estimation)/launch/rowesys_state_estimator.launch" />
+
+  <!-- start line detection (including camera launch) -->
+  <include file="$(find rowesys_front_image_processing)/launch/test_kalman.launch" />
+
+</launch>
