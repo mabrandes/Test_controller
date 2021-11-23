@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<launch> 
+
+<!-- Define topics for subscription
+<arg name="reference" default="/ov_msckf/poseimu"/>
+<arg name="measurement" default="/gazebo/model_states"/>
+-->
+
+<arg name="bag" default="/home/mbrandes/Documents/Rowesys/datasets/Test_VIO_full_system_garage/poseimu.bag"/>
+<!-- <param name="use_sim_time" value="true"/> -->
+ 
+
+<node pkg="rosbag" type="play" name="rosbag_play" args="-r 1 --clock $(arg bag)" required="true" /> 
+
+
+<node pkg="cl_controller" type="cl_controller" name="cl_controller" output="screen">
+ 	<param name="pose_ref"      type="string" value="/ov_msckf/poseimu" /> 
+ 	<param name="pose_meas"      type="string" value="/gazebo/model_states" /> 
+<!--	<rosparam command="load" file="$(find cl_controller)/config/controller_params.yaml" /> -->
+</node>
+
+<!--
+<node type="rviz" name="rviz" pkg="rviz" args="-d $(find cl_controller)/launch/display_driving.rviz" />
+-->
+
+</launch>

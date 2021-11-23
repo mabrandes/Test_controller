@@ -1,0 +1,2 @@
+topics:
+  subscriber_topic_poseimu: /ov_msckf/poseimu 	#topic name of topic published by open_vins
