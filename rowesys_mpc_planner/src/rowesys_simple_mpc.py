@@ -25,6 +25,9 @@ from nav_msgs.msg import Odometry
 from rowesys_navigation_msgs.msg import AutonomousMode, RowPosition
 from rowesys_base_msgs.msg import MotorInputs
 
+from tf.transformations import quaternion_matrix
+from tf.transformations import euler_from_quaternion, quaternion_from_euler
+
 
 
 # contains the robot model
@@ -120,7 +123,7 @@ class MPC():
     def __init__(self):
 
         self.desired_speed_x = 0.3
-        self.start_mpc = False
+        self.start_mpc = True
         self.offset_y1 = 0
         self.offset_y2 = 0
 
@@ -130,12 +133,12 @@ class MPC():
         self.steps = 20
 
         #subscribe to line offsets
-        self.line_subscriber = rospy.Subscriber('/rowesys/navigation/tracking_row_detection_image', RowPosition, self.line_position_callback, queue_size=1)
+        self.line_subscriber = rospy.Subscriber('/ov_msckf/pathimu', RowPosition, self.line_position_callback, queue_size=1)
         #self.line_subscriber = rospy.Subscriber('/rowesys/robot_wheel_odometry', Odometry, self.line_position_callback, queue_size=1)
 
-        self.autonomous_mode_subscriber = rospy.Subscriber('/rowesys/robot_autonomous_mode', AutonomousMode, self.autonomous_callback, queue_size=1)
+        #self.autonomous_mode_subscriber = rospy.Subscriber('/rowesys/robot_autonomous_mode', AutonomousMode, self.autonomous_callback, queue_size=1)
         
-        self.swerve_input_subscriber = rospy.Subscriber('/rowesys/swerve_motor_inputs', MotorInputs, self.swerve_input_callback, queue_size=1)
+        #self.swerve_input_subscriber = rospy.Subscriber('/cmd_vel', MotorInputs, self.swerve_input_callback, queue_size=1)
 
 
     def execute_mpc(self):
@@ -200,10 +203,12 @@ class MPC():
 
     def line_position_callback(self, data):
         # define angle and offset
-        self.line_offset = data.offset
-        self.line_angle = data.angle
-        #self.line_offset = data.pose.pose.position.y
-        #self.line_angle = data.pose.pose.orientation.z
+        #self.line_offset = data.offset
+        #self.line_angle = data.angle
+	
+
+        self.line_offset = data.pose.pose.position.y
+        self.line_angle = data.pose.pose.orientation.z
 
         self.offset_y1 = self.line_offset
         self.offset_y2 = self.line_offset - 1.3*math.atan(self.line_angle)
@@ -211,6 +216,15 @@ class MPC():
 
         if self.start_mpc:
             self.execute_mpc()
+
+    
+    def get_rotation (msg):
+        global roll, pitch, yaw
+        orientation_q = msg.pose.pose.orientation
+        orientation_list = [orientation_q.x, orientation_q.y, orientation_q.z, orientation_q.w]
+        (roll, pitch, yaw) = euler_from_quaternion(orientation_list)
+    
+
     
     def swerve_input_callback(self, data):
 
@@ -234,7 +248,7 @@ def main():
             
             # publish robot twist
 
-            robot_twist_pub = rospy.Publisher('/rowesys/robot_twist', Twist, queue_size=10)
+            robot_twist_pub = rospy.Publisher('/rowesys/rowesys_ackermann_steering_controller/cmd_vel', Twist, queue_size=10)
 
             twist_msg = Twist()
 

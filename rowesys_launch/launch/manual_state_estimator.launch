@@ -1,9 +1,0 @@
-<launch>
-
-  <!-- Start manual robot -->
-  <include file="$(find rowesys_launch)/launch/manual_drive.launch" />
-  
-  <!-- start state estimation -->
-  <include file="$(find rowesys_state_estimation)/launch/rowesys_state_estimator.launch" /> 
-  
-</launch>
